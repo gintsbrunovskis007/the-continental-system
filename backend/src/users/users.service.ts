@@ -39,9 +39,31 @@ export class UsersService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
-    Object.assign(user, updateUserDto);
+    if (updateUserDto.firstName !== undefined) {
+      user.first_name = updateUserDto.firstName;
+    }
 
-    return await this.userRepository.save(user);
+    if (updateUserDto.lastName !== undefined) {
+      user.last_name = updateUserDto.lastName;
+    }
+
+    if (updateUserDto.email !== undefined) {
+      user.email = updateUserDto.email;
+    }
+
+    if (updateUserDto.dateOfBirth !== undefined) {
+      user.date_of_birth = new Date(updateUserDto.dateOfBirth);
+    }
+
+    if (updateUserDto.phoneNumber !== undefined) {
+      user.phone_number = updateUserDto.phoneNumber;
+    }
+
+    const savedUser = await this.userRepository.save(user);
+
+    const { password, ...result } = savedUser;
+
+    return result;
   }
 
   async delete(id: number) {

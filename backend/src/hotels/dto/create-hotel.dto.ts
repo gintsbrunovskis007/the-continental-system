@@ -7,9 +7,10 @@ import {
   Matches,
   IsDateString,
   IsPhoneNumber,
+  IsISO31661Alpha2,
 } from "class-validator";
 
-export class CreateUserDto {
+export class CreateHotelDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)

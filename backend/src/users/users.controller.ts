@@ -6,16 +6,22 @@ import {
   Param,
   Delete,
   Get,
+  ParseIntPipe,
+  UseGuards,
 } from "@nestjs/common";
 import { UsersService } from "./users.service.js";
 import { CreateUserDto } from "./Dto/create-user.dto.js";
 import { UpdateUserDto } from "./Dto/update-user.dto.js";
-import { UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard.js";
 
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get(":id")
+  findOne(@Param("id", ParseIntPipe) id: number) {
+    return this.usersService.findOne(id);
+  }
 
   @Get()
   async findAll() {

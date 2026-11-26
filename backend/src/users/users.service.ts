@@ -13,6 +13,18 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  async findOne(id: number) {
+    const user = await this.userRepository.findOneBy({ id: id });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    const { password, ...result } = user;
+
+    return result;
+  }
+
   async findAll() {
     return this.userRepository.find({
       select: {

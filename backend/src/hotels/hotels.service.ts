@@ -27,12 +27,18 @@ export class HotelsService {
     return savedHotel;
   }
 
-  findAll() {
-    return `This action returns all hotels`;
+  async findOne(id: number) {
+    const hotel = await this.hotelRepository.findOneBy({ id: id });
+
+    if (!hotel) {
+      throw new NotFoundException(`Hotel with ID ${id} not found`);
+    }
+
+    return hotel;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} hotel`;
+  async findAll() {
+    return this.hotelRepository.find();
   }
 
   async update(id: number, updateHotelDto: UpdateHotelDto) {

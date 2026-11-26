@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from "@nestjs/common";
 import { HotelsService } from "./hotels.service.js";
 import { CreateHotelDto } from "./dto/create-hotel.dto.js";
@@ -27,14 +28,18 @@ export class HotelsController {
     return this.hotelsService.create(createHotelDto);
   }
 
-  @Get()
-  findAll() {
-    return this.hotelsService.findAll();
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get(":id")
+  findOne(@Param("id", ParseIntPipe) id: number) {
+    return this.hotelsService.findOne(id);
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.hotelsService.findOne(+id);
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get()
+  async findAll() {
+    return this.hotelsService.findAll();
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

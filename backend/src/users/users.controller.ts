@@ -13,16 +13,23 @@ import { UsersService } from "./users.service.js";
 import { CreateUserDto } from "./Dto/create-user.dto.js";
 import { UpdateUserDto } from "./Dto/update-user.dto.js";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard.js";
+import { RolesGuard } from "../auth/guards/roles.guard.js";
+import { Roles } from "../auth/decorators/roles.decorator.js";
+import { Role } from "../auth/enums/role.enum.js";
 
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Get(":id")
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Get()
   async findAll() {
     return this.usersService.findAll();

@@ -13,6 +13,19 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  async findAll() {
+    return this.userRepository.find({
+      select: {
+        id: true,
+        first_name: true,
+        last_name: true,
+        email: true,
+        date_of_birth: true,
+        phone_number: true,
+      },
+    });
+  }
+
   async create(createUserDto: CreateUserDto) {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 

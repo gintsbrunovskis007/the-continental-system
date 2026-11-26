@@ -6,6 +6,7 @@ import { UsersModule } from "./users/users.module.js";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "./auth/auth.module.js";
 import { ConfigModule } from "@nestjs/config";
+import { HotelsModule } from './hotels/hotels.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -29,6 +30,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     }),
     UsersModule,
     AuthModule,
+    HotelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -44,8 +44,10 @@ export class HotelsController {
     return this.hotelsService.update(+id, updateHotelDto);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.hotelsService.remove(+id);
+  delete(@Param("id") id: string) {
+    return this.hotelsService.delete(+id);
   }
 }

@@ -71,7 +71,17 @@ export class HotelsService {
     return savedHotel;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} hotel`;
+  async delete(id: number) {
+    const hotel = await this.hotelRepository.findOne({ where: { id } });
+
+    if (!hotel) {
+      throw new NotFoundException(`Hotel with ID ${id} not found`);
+    }
+
+    await this.hotelRepository.remove(hotel);
+
+    return {
+      message: `Hotel with ID ${id} successfully deleted`,
+    };
   }
 }

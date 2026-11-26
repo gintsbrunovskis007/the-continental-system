@@ -37,6 +37,8 @@ export class HotelsController {
     return this.hotelsService.findOne(+id);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateHotelDto: UpdateHotelDto) {
     return this.hotelsService.update(+id, updateHotelDto);

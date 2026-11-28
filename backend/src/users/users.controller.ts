@@ -42,13 +42,16 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(":id")
-  async update(@Param("id") id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async update(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.usersService.update(id, updateUserDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(":id")
-  delete(@Param("id") id: number) {
-    return this.usersService.delete(+id);
+  delete(@Param("id", ParseIntPipe) id: number) {
+    return this.usersService.delete(id);
   }
 }

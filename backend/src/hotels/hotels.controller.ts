@@ -45,14 +45,17 @@ export class HotelsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateHotelDto: UpdateHotelDto) {
-    return this.hotelsService.update(+id, updateHotelDto);
+  update(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() updateHotelDto: UpdateHotelDto,
+  ) {
+    return this.hotelsService.update(id, updateHotelDto);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Delete(":id")
-  delete(@Param("id") id: string) {
-    return this.hotelsService.delete(+id);
+  delete(@Param("id", ParseIntPipe) id: number) {
+    return this.hotelsService.delete(id);
   }
 }
